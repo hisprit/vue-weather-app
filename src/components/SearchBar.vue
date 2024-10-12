@@ -1,15 +1,29 @@
 <template>
   <div class="search-bar">
-    <form>
+    <form @submit.prevent>
       <div class="form-group">
-        <input type="search" placeholder="지역을 입력해주세요" />
-        <button>
+        <input
+          @input="inputText = $event.target.value"
+          type="search"
+          placeholder="지역을 입력해주세요"
+        />
+        <button @click="emits('onSearchCity', inputText)">
           <font-awesome-icon class="icon" :icon="['fas', 'magnifying-glass']" />
         </button>
       </div>
     </form>
   </div>
+  <P>{{ inputText }}</P>
 </template>
+
+
+<script setup>
+import { ref } from "vue";
+
+const inputText = ref("");
+const emits = defineEmits(['onSearchCity']); // 이벤트를 정의하고 함수를 반환
+</script>
+
 <style lang="scss" scoped>
 .search-bar {
   padding: 8px 20px;
@@ -31,9 +45,12 @@ form {
     button {
       background: transparent;
       border: none;
-      &:hover {cursor: pointer;}
-      .icon { font-size: 24px;}
-
+      &:hover {
+        cursor: pointer;
+      }
+      .icon {
+        font-size: 24px;
+      }
     }
   }
 }
